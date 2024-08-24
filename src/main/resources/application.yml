@@ -1,1 +1,15 @@
-
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgres://localhost:5432/job_connect_db
+    username: user
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+    database: postgresql
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
