@@ -36,6 +36,8 @@ public class User implements UserDetails {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
+    @OneToOne
+    private UserProfile userProfile;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(()-> role.getAuthority());
