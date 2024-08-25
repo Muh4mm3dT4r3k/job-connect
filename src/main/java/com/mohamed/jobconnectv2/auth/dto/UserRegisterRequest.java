@@ -1,4 +1,4 @@
-package com.mohamed.jobconnectv2.user.dto;
+package com.mohamed.jobconnectv2.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

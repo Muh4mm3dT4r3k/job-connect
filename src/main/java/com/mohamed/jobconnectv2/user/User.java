@@ -2,10 +2,7 @@ package com.mohamed.jobconnectv2.user;
 
 import com.mohamed.jobconnectv2.role.Role;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,9 +14,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "_user")
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 public class User implements UserDetails {
     @Id
     private UUID id;

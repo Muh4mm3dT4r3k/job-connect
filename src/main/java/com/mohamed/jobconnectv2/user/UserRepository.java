@@ -16,4 +16,14 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     SELECT u FROM User u WHERE u.username = :username
     """)
     Optional<User> findByUsername(String username);
+
+    @Query("""
+    SELECT COUNT (u) > 0 FROM User u WHERE u.email = :email
+    """)
+    boolean existsUserByEmail(String email);
+
+    @Query("""
+    SELECT COUNT (u) > 0 FROM User u WHERE u.username = :username
+    """)
+    boolean existsUserByUsername(String username);
 }
