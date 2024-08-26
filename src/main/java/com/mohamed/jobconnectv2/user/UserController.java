@@ -4,11 +4,11 @@ import com.mohamed.jobconnectv2.user.dto.RegisterNewUserRequest;
 import com.mohamed.jobconnectv2.user.dto.RegisterNewUserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -20,5 +20,14 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public RegisterNewUserResponse registerNewUser(@RequestBody @Valid RegisterNewUserRequest request) {
         return userService.userRegister(request);
+    }
+
+    @DeleteMapping("/admin/delete/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable UUID id) {
+        userService.deleteUser(id);
+        return ResponseEntity
+                .accepted()
+                .build();
     }
 }

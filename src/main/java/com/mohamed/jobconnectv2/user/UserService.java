@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -26,6 +25,11 @@ public class UserService {
         user.setRole(role);
         userRepository.save(user);
         return RegisterNewUserResponse.from(user);
+    }
+
+    @Transactional
+    public void deleteUser(UUID id) {
+        userRepository.deleteById(id);
     }
 
     private Role findRoleByName(String role) {
