@@ -42,6 +42,26 @@ public class User implements UserDetails {
     private boolean deleted = Boolean.FALSE;
     @OneToOne
     private UserProfile userProfile;
+
+    @Builder
+    public User(UUID id,
+                String username,
+                String email,
+                String password,
+                boolean isEnabled,
+                boolean isNonLooked,
+                LocalDateTime createdAt,
+                Role role) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.isEnabled = isEnabled;
+        this.isNonLooked = isNonLooked;
+        this.createdAt = createdAt;
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(()-> role.getAuthority());
