@@ -3,6 +3,10 @@ package com.mohamed.jobconnectv2.user;
 import com.mohamed.jobconnectv2.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -17,6 +21,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE _user SET deleted = TRUE WHERE id = ?")
+@FilterDef(name = "deletedUserFilter", parameters = @ParamDef(name = "isDeleted", type = Boolean.class))
+@Filter(name = "deletedUserFilter", condition = "deleted = :isDeleted")
 public class User implements UserDetails {
     @Id
     private UUID id;
@@ -28,11 +35,11 @@ public class User implements UserDetails {
     private boolean isEnabled;
     private boolean isNonLooked;
     private LocalDateTime createdAt;
-
     @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
+    private boolean deleted = Boolean.FALSE;
     @OneToOne
     private UserProfile userProfile;
     @Override

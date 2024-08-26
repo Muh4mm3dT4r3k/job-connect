@@ -3,6 +3,10 @@ package com.mohamed.jobconnectv2.job;
 import com.mohamed.jobconnectv2.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,6 +16,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE job SET deleted = TRUE WHERE id = ?")
+@FilterDef(name = "deletedJobFilter", parameters = @ParamDef(name = "isDeleted", type = Boolean.class))
+@Filter(name = "deletedJobFilter", condition = "deleted = :isDeleted")
 public class Job {
     @Id
     private UUID id;
@@ -27,6 +34,7 @@ public class Job {
     private String location;
     private String industry;
     private String title;
+    private boolean deleted = Boolean.FALSE;
 
     @Builder
     public Job(UUID id,
