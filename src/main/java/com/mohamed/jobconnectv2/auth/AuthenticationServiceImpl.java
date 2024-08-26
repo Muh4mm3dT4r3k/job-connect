@@ -54,17 +54,17 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 
     private User saveUserInDB(UserRegisterRequest request) {
         Role role = findRoleByName("JOB_SEEKER");
-        User user = new User(
-                UUID.randomUUID(),
-                request.username(),
-                request.email(),
-                passwordEncoder.encode(request.password()),
-                true,
-                true,
-                LocalDateTime.now(),
-                role,
-                null
-        );
+        User user = User
+                .builder()
+                .id(UUID.randomUUID())
+                .username(request.username())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
+                .role(role)
+                .isEnabled(true)
+                .isNonLooked(true)
+                .createdAt(LocalDateTime.now())
+                .build();
         return userRepository.save(user);
     }
 
