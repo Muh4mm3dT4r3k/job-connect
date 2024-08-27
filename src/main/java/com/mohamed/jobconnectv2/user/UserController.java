@@ -2,6 +2,7 @@ package com.mohamed.jobconnectv2.user;
 
 import com.mohamed.jobconnectv2.user.dto.RegisterNewUserRequest;
 import com.mohamed.jobconnectv2.user.dto.RegisterNewUserResponse;
+import com.mohamed.jobconnectv2.user.dto.UpdateUserRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,12 @@ public class UserController {
         return ResponseEntity
                 .accepted()
                 .build();
+    }
+
+    @PostMapping("/admin/update")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> updateUser(UpdateUserRequest request) {
+        userService.updateUser(request);
+        return ResponseEntity.ok("User updated successfully");
     }
 }

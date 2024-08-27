@@ -28,7 +28,7 @@ public class SecurityConfig {
            .cors(AbstractHttpConfigurer::disable)
            .authorizeHttpRequests(authorizationRegister -> {
                authorizationRegister
-                       .requestMatchers("/api/v1/auth", "/api/v1/swagger/swagger-ui.html")
+                       .requestMatchers("/api/v1/auth", "/api/v1/swagger-ui.html")
                        .permitAll()
                        .anyRequest()
                        .permitAll();
