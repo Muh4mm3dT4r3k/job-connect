@@ -6,7 +6,6 @@ import com.mohamed.jobconnectv2.user.dto.RegisterNewUserRequest;
 import com.mohamed.jobconnectv2.user.dto.RegisterNewUserResponse;
 import com.mohamed.jobconnectv2.user.dto.UpdateUserRequest;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,6 +50,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User getUserById(UUID id) {
+        return findUserByIdOrThrow(id);
+    }
+
     private User findUserByIdOrThrow(@NotNull UUID userId) {
         return userRepository
                 .findById(userId)
@@ -78,4 +81,6 @@ public class UserService {
             throw new RuntimeException("email already exists");
         // TODO handle exception
     }
+
+
 }

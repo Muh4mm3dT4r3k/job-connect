@@ -4,6 +4,7 @@ import com.mohamed.jobconnectv2.user.dto.RegisterNewUserRequest;
 import com.mohamed.jobconnectv2.user.dto.RegisterNewUserResponse;
 import com.mohamed.jobconnectv2.user.dto.UpdateUserRequest;
 import jakarta.validation.Valid;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,5 +38,11 @@ public class UserController {
     public ResponseEntity<String> updateUser(UpdateUserRequest request) {
         userService.updateUser(request);
         return ResponseEntity.ok("User updated successfully");
+    }
+
+    @GetMapping("/admin/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public User getUser(@PathVariable UUID id) {
+        return userService.getUserById(id);
     }
 }
