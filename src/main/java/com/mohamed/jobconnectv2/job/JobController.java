@@ -5,10 +5,9 @@ import com.mohamed.jobconnectv2.job.dto.PostJobResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/job")
@@ -21,5 +20,11 @@ public class JobController {
     @PreAuthorize("hasRole('ROLE_EMPLOYER')")
     public PostJobResponse postJob(@RequestBody @Valid PostJobRequest request) {
         return jobService.postJob(request);
+    }
+
+    @GetMapping("/pending-jobs")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<Job> pendingJobs(){
+        return jobService.findAllPendingJobs();
     }
 }
