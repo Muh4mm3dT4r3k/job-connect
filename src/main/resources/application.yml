@@ -19,3 +19,7 @@ application:
     jwt:
       secretKey: GXnbt0cB7t0K7SJM2QCJGsNJjF818xxm
       expiration: 86400000
+
+server:
+  servlet:
+    context-path: /api/v1/
