@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgres://localhost:5432/job_connect_db
+    url: jdbc:postgresql://localhost:5432/job_connect_db
     username: user
     password: password
   jpa:
@@ -23,3 +23,7 @@ application:
 server:
   servlet:
     context-path: /api/v1/
+#springdoc:
+#  api-docs:
+#    path: "/swagger/swagger-ui.html"
+#

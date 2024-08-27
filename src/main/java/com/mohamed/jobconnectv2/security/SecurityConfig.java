@@ -28,10 +28,10 @@ public class SecurityConfig {
            .cors(AbstractHttpConfigurer::disable)
            .authorizeHttpRequests(authorizationRegister -> {
                authorizationRegister
-                       .requestMatchers("/api/v1/auth")
+                       .requestMatchers("/api/v1/auth", "/api/v1/swagger/swagger-ui.html")
                        .permitAll()
                        .anyRequest()
-                       .authenticated();
+                       .permitAll();
            })
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
