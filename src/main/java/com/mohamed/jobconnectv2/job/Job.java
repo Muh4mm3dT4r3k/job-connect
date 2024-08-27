@@ -23,7 +23,7 @@ public class Job {
     @Id
     private UUID id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employer_id")
+    @JoinColumn(name = "employerId")
     private User employer;
     @Enumerated(EnumType.STRING)
     private JobType type;
