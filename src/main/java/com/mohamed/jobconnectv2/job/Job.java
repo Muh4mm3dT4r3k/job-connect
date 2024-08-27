@@ -26,8 +26,8 @@ public class Job {
     @JoinColumn(name = "employer_id")
     private User employer;
     @Enumerated(EnumType.STRING)
-    private JobType jobType;
-    private BigDecimal jobBudget;
+    private JobType type;
+    private BigDecimal budget;
     private LocalDateTime createdAt;
     private String description;
     private Integer numberOfProposalSubmitted;
@@ -35,31 +35,40 @@ public class Job {
     private String industry;
     private String title;
     private boolean deleted = Boolean.FALSE;
-
+    @Enumerated(EnumType.STRING)
+    private JobStatus status;
     @Builder
     public Job(UUID id,
-               JobType jobType,
-               BigDecimal jobBudget,
+               JobType type,
+               BigDecimal budget,
                LocalDateTime createdAt,
                String description,
                Integer numberOfProposalSubmitted,
                String location,
                String industry,
-               String title) {
+               String title,
+               JobStatus status) {
         this.id = id;
-        this.jobType = jobType;
-        this.jobBudget = jobBudget;
+        this.type = type;
+        this.budget = budget;
         this.createdAt = createdAt;
         this.description = description;
         this.numberOfProposalSubmitted = numberOfProposalSubmitted;
         this.location = location;
         this.industry = industry;
         this.title = title;
+        this.status = status;
     }
 
     public enum JobType{
         PART_TIME,
         FULL_TIME,
         REMOTE
+    }
+
+    public enum JobStatus {
+        ACCEPTED,
+        REJECTED,
+        PENDING
     }
 }
