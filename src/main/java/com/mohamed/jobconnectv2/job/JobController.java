@@ -6,7 +6,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +36,13 @@ public class JobController {
         jobService.acceptJob(id);
         return ResponseEntity
                 .ok("Job accepted successfully");
+    }
+
+    @PostMapping("/reject/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> rejectJob(@PathVariable UUID id) {
+        jobService.rejectJob(id);
+        return ResponseEntity
+                .ok("Job rejected successfully");
     }
 }

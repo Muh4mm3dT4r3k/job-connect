@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.mohamed.jobconnectv2.job.Job.JobStatus.ACCEPTED;
+import static com.mohamed.jobconnectv2.job.Job.JobStatus.REJECTED;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +36,13 @@ public class JobService {
     public void acceptJob(UUID jobId) {
         Job job = findJobByIdOrThrow(jobId);
         job.setStatus(ACCEPTED);
+        jobRepository.save(job);
+    }
+
+    @Transactional
+    public void rejectJob(UUID jobId) {
+        Job job = findJobByIdOrThrow(jobId);
+        job.setStatus(REJECTED);
         jobRepository.save(job);
     }
 
