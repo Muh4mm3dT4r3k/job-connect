@@ -1,5 +1,6 @@
 package com.mohamed.jobconnectv2.job;
 
+import com.mohamed.jobconnectv2.job.Job.JobStatus;
 import com.mohamed.jobconnectv2.job.dto.PostJobRequest;
 import com.mohamed.jobconnectv2.job.dto.PostJobResponse;
 import com.mohamed.jobconnectv2.user.User;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static com.mohamed.jobconnectv2.job.Job.JobStatus.ACCEPTED;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,20 @@ public class JobService {
         job.setEmployer(user);
         jobRepository.save(job);
         return PostJobResponse.from(job, employer);
+    }
+
+    @Transactional
+    public void acceptJob(UUID jobId) {
+        Job job = findJobByIdOrThrow(jobId);
+        job.setStatus(ACCEPTED);
+        jobRepository.save(job);
+    }
+
+    private Job findJobByIdOrThrow(UUID jobId) {
+        return jobRepository
+                .findPendingJobById(jobId)
+                .orElseThrow(() -> new RuntimeException("job not found"));
+        // TODO handle exception
     }
 
     private EmployerDto findEmployerByIdOrThrow(UUID employerId) {
