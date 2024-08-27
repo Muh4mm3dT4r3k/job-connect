@@ -39,6 +39,6 @@ public class JobService {
     }
 
     public List<Job> findAllPendingJobs() {
-        return jobRepository.findAll();
+        return jobRepository.findAllPendingJobs();
     }
 }
