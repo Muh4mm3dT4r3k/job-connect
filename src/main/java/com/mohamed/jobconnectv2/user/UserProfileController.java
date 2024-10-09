@@ -1,6 +1,7 @@
 package com.mohamed.jobconnectv2.user;
 
 import com.mohamed.jobconnectv2.user.dto.CreateUserProfileRequest;
+import com.mohamed.jobconnectv2.user.dto.UpdateUserProfileRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +23,12 @@ public class UserProfileController {
         return ResponseEntity
                 .ok()
                 .build();
+    }
+
+    @PutMapping("/{id}/profile")
+    @PreAuthorize("#id == authentication.details.id")
+    public ResponseEntity<?> update(@PathVariable UUID id, @ModelAttribute @Valid UpdateUserProfileRequest request) {
+        userProfileService.update(id, request);
+        return ResponseEntity.ok().build();
     }
 }
