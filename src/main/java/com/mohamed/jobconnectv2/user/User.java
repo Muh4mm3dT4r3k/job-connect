@@ -29,8 +29,6 @@ public class User implements UserDetails {
     private UUID id;
     @Column(unique = true)
     private String username;
-    @Column(unique = true)
-    private String email;
     private String password;
     private boolean isEnabled;
     private boolean isNonLooked;
@@ -46,7 +44,6 @@ public class User implements UserDetails {
     @Builder
     public User(UUID id,
                 String username,
-                String email,
                 String password,
                 boolean isEnabled,
                 boolean isNonLooked,
@@ -54,7 +51,6 @@ public class User implements UserDetails {
                 Role role) {
         this.id = id;
         this.username = username;
-        this.email = email;
         this.password = password;
         this.isEnabled = isEnabled;
         this.isNonLooked = isNonLooked;
