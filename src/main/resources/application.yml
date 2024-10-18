@@ -19,6 +19,10 @@ application:
     jwt:
       secretKey: GXnbt0cB7t0K7SJM2QCJGsNJjF818xxm
       expiration: 86400000
+  files:
+    upload:
+      image: "upload/image"
+      cv: "upload/cv"
 
 server:
   servlet:
