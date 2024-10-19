@@ -47,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
                         request.password()
                 )
         );
-        var user = (User) authenticate.getDetails();
+        var user = (User) authenticate.getPrincipal();
         String token = jwtService.generateToken(user);
         return new UserLoginResponse(token);
     }
