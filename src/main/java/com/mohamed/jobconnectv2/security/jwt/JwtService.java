@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
@@ -39,8 +41,8 @@ public class JwtService {
                 .builder()
                 .signWith(getSignKey())
                 .setSubject(userDetails.getUsername())
-                .setClaims(extraClaims)
-                .claim("role", userDetails.getAuthorities())
+//                .setClaims(extraClaims)
+                .claim("role", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .compact();
@@ -48,6 +50,7 @@ public class JwtService {
 
     public String extractUsername(String jwt) {
         var claims = extractAllClaims(jwt);
+        System.out.println(claims.toString());
         return claimResolver(claims, Claims::getSubject);
     }
 
