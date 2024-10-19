@@ -2,6 +2,7 @@ package com.mohamed.jobconnectv2.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ public record CreateUserProfileRequest(
         @NotNull(message = "date of birth is required")
         String email,
         LocalDate dayOfBirth,
-        String cv,
-        String photo
+        MultipartFile cv,
+        MultipartFile photo
 ) implements Serializable {
 }
