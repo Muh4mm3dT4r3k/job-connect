@@ -1,9 +1,11 @@
 package com.mohamed.jobconnectv2.security;
 
 import com.mohamed.jobconnectv2.security.jwt.JwtFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,10 +30,12 @@ public class SecurityConfig {
            .cors(AbstractHttpConfigurer::disable)
            .authorizeHttpRequests(authorizationRegister -> {
                authorizationRegister
-                       .requestMatchers("/api/v1/auth", "/api/v1/swagger-ui.html")
+                       .requestMatchers(HttpMethod.POST,"/auth/**", "/swagger-ui/**", "/v3/api-docs/**")
+                       .permitAll()
+                       .requestMatchers(HttpMethod.GET,"/auth/**", "/swagger-ui/**", "/v3/api-docs/**")
                        .permitAll()
                        .anyRequest()
-                       .permitAll();
+                       .authenticated();
            })
             .authenticationProvider(authenticationProvider)
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
