@@ -27,7 +27,7 @@ public class MessageService {
     public void send(SendMessageRequest request) {
         UUID currentUserId = SecurityUtils.getCurrentUserId();
         User sender = CommonMethods.findUserByIdOrThrow(currentUserId, userRepository);
-        User receiver = CommonMethods.findUserByIdOrThrow(request.receiverId(), userRepository);
+        User receiver = CommonMethods.findUserByIdOrThrow(request.userTo(), userRepository);
         Message message = Message
                 .builder()
                 .id(UUID.randomUUID())
@@ -39,9 +39,9 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public Page<MessageResponse> getMessages(UUID receiverId, Pageable pageable) {
+    public Page<MessageResponse> getMessages(UUID userId, Pageable pageable) {
         Page<Message> messages = messageRepository
-                .findBySenderIdAndReceiverId(SecurityUtils.getCurrentUserId(), receiverId, pageable);
+                .findMessagesBetweenTwoUsers(SecurityUtils.getCurrentUserId(), userId, pageable);
         return new PageImpl<>(messages.stream()
                 .map(this::convert)
                 .collect(Collectors.toList()),

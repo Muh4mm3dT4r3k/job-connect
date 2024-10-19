@@ -1,6 +1,7 @@
 package com.mohamed.jobconnectv2.message.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -11,7 +12,7 @@ import java.util.UUID;
 public record SendMessageRequest(
         @NotBlank(message = "message is required")
         String messageText,
-        @NotBlank(message = "receive id is required")
-        UUID receiverId
+        @NotNull(message = "user to id is required")
+        UUID userTo
 ) implements Serializable {
 }

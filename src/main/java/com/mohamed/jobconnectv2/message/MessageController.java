@@ -20,8 +20,8 @@ public class MessageController {
         messageService.send(request);
     }
 
-    @GetMapping("{receiverId}")
-    public Page<MessageResponse> getMessages(@PathVariable UUID receiverId, Pageable pageable) {
-        return messageService.getMessages(receiverId, pageable);
+    @GetMapping("{userId}")
+    public Page<MessageResponse> getMessages(@PathVariable UUID userId, Pageable pageable) {
+        return messageService.getMessages(userId, pageable);
     }
 }
