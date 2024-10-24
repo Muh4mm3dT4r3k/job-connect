@@ -3,6 +3,7 @@ package com.mohamed.jobconnectv2.user;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -24,4 +25,6 @@ public class UserProfile {
     private LocalDate dayOfBirth;
     private String cv;
     private String photo;
+    @OneToOne
+    private User user;
 }

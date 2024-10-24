@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
-public record RegisterNewUserResponse (
+public record RegisterationNewUserResponse(
         UUID id,
         String username,
         String email,
@@ -17,8 +17,8 @@ public record RegisterNewUserResponse (
         String role,
         LocalDateTime createdAt
 ) implements Serializable {
-    public static RegisterNewUserResponse from(User user) {
-        return RegisterNewUserResponse
+    public static RegisterationNewUserResponse from(User user) {
+        return RegisterationNewUserResponse
                 .builder()
                 .id(user.getId())
                 .username(user.getUsername())

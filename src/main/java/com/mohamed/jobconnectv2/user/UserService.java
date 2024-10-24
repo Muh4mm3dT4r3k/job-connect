@@ -4,13 +4,14 @@ import com.mohamed.jobconnectv2.common.CommonMethods;
 import com.mohamed.jobconnectv2.role.Role;
 import com.mohamed.jobconnectv2.role.RoleRepository;
 import com.mohamed.jobconnectv2.user.dto.RegisterNewUserRequest;
-import com.mohamed.jobconnectv2.user.dto.RegisterNewUserResponse;
+import com.mohamed.jobconnectv2.user.dto.RegisterationNewUserResponse;
 import com.mohamed.jobconnectv2.user.dto.UpdateUserRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,7 +22,7 @@ public class UserService {
     private final RoleRepository roleRepository;
 
     @Transactional
-    public RegisterNewUserResponse userRegister(RegisterNewUserRequest request) {
+    public RegisterationNewUserResponse registerUserByAdmin(RegisterNewUserRequest request) {
         Role role = CommonMethods.findRoleByName(request.role(), roleRepository);
         CommonMethods.checkEmailAlreadyExist(request.email(), userRepository);
         CommonMethods.checkUsernameAlreadyExist(request.username(), userRepository);
@@ -29,7 +30,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setRole(role);
         userRepository.save(user);
-        return RegisterNewUserResponse.from(user);
+        return RegisterationNewUserResponse.from(user);
     }
 
 
@@ -44,6 +45,7 @@ public class UserService {
         Role role = CommonMethods.findRoleByName(request.role(), roleRepository);
         User user = CommonMethods.findUserByIdOrThrow(request.userId(), userRepository);
         user.setRole(role);
+        user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setEnabled(request.isEnabled());
         user.setNonLooked(request.isNonLooked());
@@ -54,4 +56,7 @@ public class UserService {
         return CommonMethods.findUserByIdOrThrow(id, userRepository);
     }
 
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
 }

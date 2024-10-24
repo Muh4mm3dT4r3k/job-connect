@@ -10,6 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -24,11 +25,13 @@ import java.util.UUID;
 @SQLDelete(sql = "UPDATE _user SET deleted = TRUE WHERE id = ?")
 @FilterDef(name = "deletedUserFilter", parameters = @ParamDef(name = "isDeleted", type = Boolean.class))
 @Filter(name = "deletedUserFilter", condition = "deleted = :isDeleted")
-public class User implements UserDetails {
+public class User implements UserDetails, Principal {
     @Id
     private UUID id;
     @Column(unique = true)
     private String username;
+    @Column(unique = true)
+    private String email;
     private String password;
     private boolean isEnabled;
     private boolean isNonLooked;
@@ -38,12 +41,10 @@ public class User implements UserDetails {
     private Role role;
 
     private boolean deleted = Boolean.FALSE;
-    @OneToOne
-    private UserProfile userProfile;
-
     @Builder
     public User(UUID id,
                 String username,
+                String email,
                 String password,
                 boolean isEnabled,
                 boolean isNonLooked,
@@ -51,6 +52,7 @@ public class User implements UserDetails {
                 Role role) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.password = password;
         this.isEnabled = isEnabled;
         this.isNonLooked = isNonLooked;
@@ -62,4 +64,10 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(()-> role.getAuthority());
     }
+
+    @Override
+    public String getName() {
+        return "";
+    }
+
 }

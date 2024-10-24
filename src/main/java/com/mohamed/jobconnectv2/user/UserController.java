@@ -1,9 +1,12 @@
 package com.mohamed.jobconnectv2.user;
 
+import com.mohamed.jobconnectv2.user.dto.RegisterNewUserRequest;
+import com.mohamed.jobconnectv2.user.dto.RegisterationNewUserResponse;
 import com.mohamed.jobconnectv2.user.dto.UpdateUserRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,5 +39,11 @@ public class UserController {
     @GetMapping("/")
     public List<User> getUsers() {
         return userService.getAll();
+    }
+
+    @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public RegisterationNewUserResponse register(@RequestBody @Valid RegisterNewUserRequest request) {
+        return userService.registerUserByAdmin(request);
     }
 }

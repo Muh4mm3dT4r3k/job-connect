@@ -34,9 +34,8 @@ public class UserProfileService{
                 .cv(cv.filename())
                 .photo(photo.filename())
                 .dayOfBirth(request.dayOfBirth())
+                .user(user)
                 .build();
-        user.setUserProfile(userProfile);
-        userRepository.save(user);
         userProfileRepository.save(userProfile);
     }
 
