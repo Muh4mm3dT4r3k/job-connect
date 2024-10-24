@@ -9,13 +9,11 @@ import com.mohamed.jobconnectv2.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,22 +38,7 @@ public class MessageService {
     }
 
     public Page<MessageResponse> getMessages(UUID userId, Pageable pageable) {
-        Page<Message> messages = messageRepository
+        return messageRepository
                 .findMessagesBetweenTwoUsers(SecurityUtils.getCurrentUserId(), userId, pageable);
-        return new PageImpl<>(messages.stream()
-                .map(this::convert)
-                .collect(Collectors.toList()),
-                pageable,
-                messages.getTotalElements());
     }
-
-    private MessageResponse convert(Message message) {
-        return new MessageResponse(
-                message.getId(),
-                message.getMessageText(),
-                message.getSender().getId(),
-                message.getReceiver().getId(),
-                message.getSentAt());
-    }
-
 }
